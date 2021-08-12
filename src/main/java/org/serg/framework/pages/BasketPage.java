@@ -69,8 +69,8 @@ public class BasketPage extends BasePage {
     public BasketPage deleteProductDet() {
         waitUtilElementToBeVisible(deleteProductDet);
         waitUtilElementToBeClickable(deleteProductDet);
-        deleteProductDet.click();
-        actions.pause(2000).build().perform();
+       // deleteProductDet.click();
+        actions.click(deleteProductDet).pause(2000).build().perform();
         return this;
     }
 
@@ -78,12 +78,12 @@ public class BasketPage extends BasePage {
     private WebElement checkVisibleDet;
 
     public BasketPage checkVisibleDetAndCheckPrice() {
-        actions.pause(2000).build().perform();
+        //actions.pause(2000).build().perform();
         //проверка что нет товара
         elementIsNotPresent("//a[contains(text(),'Игра Detroit')]");
         sumAllDiff = checkVisibleDet.getAttribute("innerText");
 
-        actions.pause(2000).build().perform();
+       // actions.pause(2000).build().perform();
         difference(sumAllDiff, pageManager.getDetroitPage().getPriceDet(), pageManager.getDetroitPage().getAllSum());
         return this;
     }
@@ -95,7 +95,7 @@ public class BasketPage extends BasePage {
     public BasketPage scrollPage() {
         scrollToElementJs(scrollPage);
         waitUtilElementToBeVisible(scrollPage);
-        actions.pause(5000).build().perform();
+      //  actions.pause(5000).build().perform();
         return this;
     }
 
@@ -125,7 +125,7 @@ public class BasketPage extends BasePage {
     private WebElement checkPrice3xProduct;
 
     public BasketPage checkPrice3xProductM() {
-        actions.pause(4000).build().perform();
+       // actions.pause(4000).build().perform();
         price3xProductStr = checkPrice3xProduct.getAttribute("innerText");
 
         checkPrice3xProduct(pageManager.getLaptopPage().getNewPrice(), price3xProductStr);

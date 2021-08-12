@@ -128,21 +128,6 @@ public class BasePage {
 
 
 
-//    /**
-//     * @param priceLaptop-цена  ноутбука
-//     * @param priceDetroit-цена игры
-//     * @param sumAll-общая      сумма покупки
-//     */
-//    protected void sum(String priceLaptop, String priceDetroit, String sumAll) {
-//        int priceLaptopInt = Integer.parseInt(priceLaptop.replaceAll("\\D*", ""));
-//        int priceDetroitInt = Integer.parseInt(priceDetroit.replaceAll("\\D*", ""));
-//        int allPrice = Integer.parseInt(sumAll.replaceAll("\\D*", ""));
-//        int sum = priceLaptopInt + priceDetroitInt;
-//        System.out.println(allPrice+"Цена всей суммы");
-//        System.out.println("Вся цена:" + allPrice + "||" + "Сумма:" + sum);
-//
-//        Assertions.assertEquals(sum, allPrice, "Не совпадает");
-//    }
 
 
 
