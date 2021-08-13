@@ -1,5 +1,6 @@
 package org.serg.framework.pages;
 
+import io.qameta.allure.Step;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
@@ -14,34 +15,47 @@ public class LaptopPage extends BasePage {
     @FindBy(xpath = "//h1")
     private WebElement checkingThePage;
 
-
-    public LaptopPage checkingPage() {
-        Assertions.assertEquals("15.6\" Ноутбук MSI GF65 10UE-065XRU черный", checkingThePage.getText(), "Не та страница");
-        return this;
-    }
-
     @FindBy(xpath = "//div[@class='product-buy__price']")
     private WebElement rememberPrice;
-
-
-    public LaptopPage rememberPrice() {
-        price= rememberPrice.getAttribute("innerText");
-        return this;
-    }
-
 
     @FindBy(xpath = "//div[contains(@class,'additional')][contains(text(),'Гарантия')]")
     private WebElement clickWarranty;
 
+    @FindBy(xpath = "//input[@name='product-warranty'][@value='1']/..")
+    private WebElement clickWarrantyAddTwo;
+
+    @FindBy(xpath = "//div[@class='product-card-top__buy']//div[contains(@class,'price_active')]")
+    private WebElement rememberNewPrice;
+
+    @FindBy(xpath = "//div[@class='product-card-top__buy']//button[contains(@class,'button-ui_passive')]")
+    private WebElement clickBuy;
+
+    @FindBy(xpath = "//form[@class='presearch']//input[@type='search']")
+    private WebElement clickSearchDet;
+
+
+    @Step("Проверка страницы ноутбук")
+    public LaptopPage checkingPage() {
+        Assertions.assertEquals("15.6\" Ноутбук MSI GF65 10UE-065XRU черный"
+                , checkingThePage.getText(), "Не та страница");
+        return this;
+    }
+
+
+    @Step("Запоминаем цену ноутбука")
+    public LaptopPage rememberPrice() {
+        price = rememberPrice.getAttribute("innerText");
+        return this;
+    }
+
+    @Step("Переходим в гарантию")
     public LaptopPage clickWarranty() {
         waitUtilElementToBeClickable(clickWarranty);
         clickWarranty.click();
         return this;
     }
 
-    @FindBy(xpath = "//input[@name='product-warranty'][@value='1']/..")
-    private WebElement clickWarrantyAddTwo;
-
+    @Step("Выбираем два года гарантии")
     public LaptopPage clickWarrantyAddTwo() {
         waitUtilElementToBeVisible(clickWarrantyAddTwo);
         waitUtilElementToBeClickable(clickWarrantyAddTwo);
@@ -49,29 +63,20 @@ public class LaptopPage extends BasePage {
         return this;
     }
 
-    @FindBy(xpath = "//div[@class='product-card-top__buy']//div[contains(@class,'price_active')]")
-    private WebElement rememberNewPrice;
-
-
+    @Step("Запоминаем новую цену игры")
     public LaptopPage rememberNewPrice() {
-        newPrice= rememberNewPrice.getAttribute("innerText");
+        newPrice = rememberNewPrice.getAttribute("innerText");
         return this;
     }
 
-
-    @FindBy(xpath = "//div[@class='product-card-top__buy']//button[contains(@class,'button-ui_passive')]")
-    private WebElement clickBuy;
-
+    @Step("Покупаем товар")
     public LaptopPage clickBuy() {
         waitUtilElementToBeClickable(clickBuy);
         clickBuy.click();
         return this;
     }
 
-
-    @FindBy(xpath = "//form[@class='presearch']//input[@type='search']")
-    private WebElement clickSearchDet;
-
+    @Step("Вбиваем в поиск '{nameProductDet}' и переходим на страницу списка товаров")
     public ListProductPage clickSearchDet(String nameProductDet) {
         waitUtilElementToBeVisible(clickSearchDet);
         waitUtilElementToBeClickable(clickSearchDet);

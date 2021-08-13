@@ -3,6 +3,7 @@ package org.serg.tests;
 import org.junit.jupiter.api.Test;
 import org.serg.tests.base.BaseTests;
 
+
 public class OrdinaryTest extends BaseTests {
     /**
      * Заходим на страницу "ипотека"

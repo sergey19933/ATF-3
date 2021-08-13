@@ -1,6 +1,8 @@
 package org.serg.framework.pages;
 
+import io.qameta.allure.Step;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Tag;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -19,15 +21,53 @@ public class BasketPage extends BasePage {
     @FindBy(xpath = "//div[contains(@class,'warranties-row__radio')]//span[contains(@class,'icon_checked')]")
     private WebElement checkWarrantyLap;
 
+    @FindBy(xpath = "//a[contains(text(),'MSI GF65 10UE-065XRU')]//../../../..//..//span[@class='price__current']")
+    private WebElement checkPriceLap;
+
+    @FindBy(xpath = "//a[contains(text(),'Игра Detroit: Стать человеком (PS4)')]//../../../..//..//span[@class='price__current']")
+    private WebElement checkPriceDet;
+
+    @FindBy(xpath = "//div[@class='total-amount']//span[@class='price__current']")
+    private WebElement checkSumBasket;
+
+    @FindBy(xpath = "//div[@class='accessories__slider-wrapper']")
+    private WebElement scrollDet;
+
+    @FindBy(xpath = "//a[contains(text(),'Игра Detroit')]/../..//button[text()='Удалить']")
+    private WebElement deleteProductDet;
+
+    @FindBy(xpath = "//span[@class='cart-link__price']")
+    private WebElement checkVisibleDet;
+
+    @FindBy(xpath = "//h1[text()='Корзина']")
+    private WebElement scrollPage;
+
+    @FindBy(xpath = "//button[contains(@class,'button_plus')]")
+    private WebElement addProduct;
+
+    @FindBy(xpath = "//div[@class='header-top']")
+    private WebElement scrProduct;
+
+    @FindBy(xpath = "//div[@class='total-amount']//span[@class='price__current']")
+    private WebElement checkPrice3xProduct;
+
+    @FindBy(xpath = "//button[contains(@class,'item_print-basket')]/..//span[@class='restore-last-removed']")
+    private WebElement returnDeleteProduct;
+
+    @FindBy(xpath = "//a[contains(text(),'Игра Detroit')]")
+    private WebElement assertVisibleDetroit;
+
+    @FindBy(xpath = "//span[@class='cart-link__price']")
+    private WebElement allSumNewBasketFinal;
+
+    @Step("Проверка выбрана ли гарантия")
     public BasketPage checkWarrantyLap() {
         // Assertions.assertEquals("Игра Detroit: Стать человеком (PS4)", checkWarrantyLap.getText(), "Не та страница");
         Assertions.assertFalse(driverManager.getDriver().findElements(By.xpath("//div[contains(@class,'warranties-row__radio')]//span[contains(@class,'icon_checked')]")).size() == 0, "Гарантия не выбрана");
         return this;
     }
 
-    @FindBy(xpath = "//a[contains(text(),'MSI GF65 10UE-065XRU')]//../../../..//..//span[@class='price__current']")
-    private WebElement checkPriceLap;
-
+    @Step("Проверяем цену ноутбку в корзине")
     public BasketPage checkPriceLap() {
         priceLapBasket = checkPriceLap.getAttribute("innerText");
         checkPriceProduct(pageManager.getLaptopPage().getPrice(), priceLapBasket);
@@ -35,10 +75,7 @@ public class BasketPage extends BasePage {
 
     }
 
-
-    @FindBy(xpath = "//a[contains(text(),'Игра Detroit: Стать человеком (PS4)')]//../../../..//..//span[@class='price__current']")
-    private WebElement checkPriceDet;
-
+    @Step("Проверяем цену игры в корзине")
     public BasketPage checkPriceDet() {
         scrollToElementJs(checkPriceDet);
         priceDetBasket = checkPriceDet.getAttribute("innerText");
@@ -46,62 +83,49 @@ public class BasketPage extends BasePage {
         return this;
     }
 
-    @FindBy(xpath = "//div[@class='total-amount']//span[@class='price__current']")
-    private WebElement checkSumBasket;
-
+    @Step("Проверяем общую сумму в корзине")
     public BasketPage checkSumBasket() {
         sumBasketBasket = checkSumBasket.getAttribute("innerText");
         checkPriceProduct(pageManager.getDetroitPage().getAllSum(), sumBasketBasket);
         return this;
     }
 
-    @FindBy(xpath = "//div[@class='accessories__slider-wrapper']")
-    private WebElement scrollDet;
-
+    @Step
     public BasketPage scrollDet() {
         scrollToElementJs(scrollDet);
         return this;
     }
 
-    @FindBy(xpath = "//a[contains(text(),'Игра Detroit')]/../..//button[text()='Удалить']")
-    private WebElement deleteProductDet;
-
+    @Step("Удаляем игру")
     public BasketPage deleteProductDet() {
         waitUtilElementToBeVisible(deleteProductDet);
         waitUtilElementToBeClickable(deleteProductDet);
-       // deleteProductDet.click();
+        // deleteProductDet.click();
         actions.click(deleteProductDet).pause(2000).build().perform();
         return this;
     }
 
-    @FindBy(xpath = "//span[@class='cart-link__price']")
-    private WebElement checkVisibleDet;
-
+    @Step("Проверка удалилась игра и вычлась сумма")
     public BasketPage checkVisibleDetAndCheckPrice() {
         //actions.pause(2000).build().perform();
         //проверка что нет товара
         elementIsNotPresent("//a[contains(text(),'Игра Detroit')]");
         sumAllDiff = checkVisibleDet.getAttribute("innerText");
 
-       // actions.pause(2000).build().perform();
+        // actions.pause(2000).build().perform();
         difference(sumAllDiff, pageManager.getDetroitPage().getPriceDet(), pageManager.getDetroitPage().getAllSum());
         return this;
     }
 
-
-    @FindBy(xpath = "//h1[text()='Корзина']")
-    private WebElement scrollPage;
-
+    @Step
     public BasketPage scrollPage() {
         scrollToElementJs(scrollPage);
         waitUtilElementToBeVisible(scrollPage);
-      //  actions.pause(5000).build().perform();
+        //  actions.pause(5000).build().perform();
         return this;
     }
 
-    @FindBy(xpath = "//button[contains(@class,'button_plus')]")
-    private WebElement addProduct;
-
+    @Step("Добавляем еще два ноутбука")
     public BasketPage addProduct() {
         waitUtilElementToBeClickable(addProduct);
         // addProduct.click();
@@ -111,39 +135,30 @@ public class BasketPage extends BasePage {
         return this;
     }
 
-
-    @FindBy(xpath = "//div[@class='header-top']")
-    private WebElement scrProduct;
-
+    @Step
     public BasketPage scrProduct() {
         scrollToElementJs(scrProduct);
         waitUtilElementToBeVisible(scrProduct);
         return this;
     }
 
-    @FindBy(xpath = "//div[@class='total-amount']//span[@class='price__current']")
-    private WebElement checkPrice3xProduct;
-
+    @Step("Проверяем что цена равно трем ноутбукам")
     public BasketPage checkPrice3xProductM() {
-       // actions.pause(4000).build().perform();
+        // actions.pause(4000).build().perform();
         price3xProductStr = checkPrice3xProduct.getAttribute("innerText");
 
         checkPrice3xProduct(pageManager.getLaptopPage().getNewPrice(), price3xProductStr);
         return this;
     }
 
-    @FindBy(xpath = "//button[contains(@class,'item_print-basket')]/..//span[@class='restore-last-removed']")
-    private WebElement returnDeleteProduct;
-
+    @Step("Возвращаем товар")
     public BasketPage returnDeleteProduct() {
-        actions.click(returnDeleteProduct).pause(2000).build().perform();
+        actions.click(returnDeleteProduct).build().perform();
 
         return this;
     }
 
-    @FindBy(xpath = "//a[contains(text(),'Игра Detroit')]")
-    private WebElement assertVisibleDetroit;
-
+    @Step("Проверяем появился элемент или нет ")
     public BasketPage assertVisibleDetroit() {
         waitUtilElementToBeClickable(assertVisibleDetroit);
         Assertions.assertFalse(driverManager.getDriver().findElements(By.xpath("//a[contains(text(),'Игра Detroit')]")).size() == 0, "Товар не найден");
@@ -151,9 +166,7 @@ public class BasketPage extends BasePage {
         return this;
     }
 
-    @FindBy(xpath = "//span[@class='cart-link__price']")
-    private WebElement allSumNewBasketFinal;
-
+    @Step("Проверяем финальную сумму корзины с суммой всех товаров после восстановления")
     public BasketPage checkAllSumNewBasketFinal() {
         allSumNewBasketFinalS = allSumNewBasketFinal.getAttribute("innerText");
         differenceDetr(allSumNewBasketFinalS, pageManager.getLaptopPage().getNewPrice(), pageManager.getDetroitPage().getPriceDet());

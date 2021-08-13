@@ -14,6 +14,8 @@ import org.serg.framework.managers.DriverManager;
 import org.serg.framework.managers.PageManager;
 import org.serg.framework.managers.TestPropManager;
 
+import java.util.concurrent.TimeUnit;
+
 public class BasePage {
 
     /**
@@ -121,8 +123,19 @@ public class BasePage {
      *
      * @param xpath-путь файла
      */
+    //изменить сброс имплисит
+
     public void elementIsNotPresent(String xpath) {
-        Assertions.assertTrue(driverManager.getDriver().findElements(By.xpath(xpath)).size() == 0, "Товар не удалился");
+        try {
+            driverManager.getDriver().manage().timeouts().implicitlyWait(3000, TimeUnit.MILLISECONDS);
+            Assertions.assertTrue(driverManager.getDriver().findElements(By.xpath(xpath)).size() == 0, "Товар не удалился");
+        }catch (Exception e){
+        }
+        finally {
+            driverManager.getDriver().manage().timeouts().implicitlyWait(15000, TimeUnit.MILLISECONDS);
+        }
+
+
 
     }
 

@@ -1,5 +1,6 @@
 package org.serg.framework.pages;
 
+import io.qameta.allure.Step;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -14,23 +15,39 @@ public class DetroitPage extends BasePage {
     @FindBy(xpath = "//h1")
     private WebElement checkingThePageDet;
 
+    @FindBy(xpath = "//div[@class='product-buy__price']")
+    private WebElement rememberPriceDet;
+
+    @FindBy(xpath = "//div[@class='product-card-top__buy']//button[contains(@class,'button-ui_passive')]")
+    private WebElement clickBuyDet;
+
+    @FindBy(xpath = "//span[@class='cart-link__price']")
+    private WebElement allSumBasket;
+
+    @FindBy(xpath = "//span[@class='cart-link__price']")
+    private WebElement goBasket;
+
+
+
+
+
+
+    @Step("Проверка страницы с игрой")
     public DetroitPage checkingThePageDet() {
         Assertions.assertEquals("Игра Detroit: Стать человеком (PS4)", checkingThePageDet.getText(), "Не та страница");
         return this;
     }
 
-    @FindBy(xpath = "//div[@class='product-buy__price']")
-    private WebElement rememberPriceDet;
 
+    @Step("Запоминаем цену игры")
     public DetroitPage rememberPriceDet() {
         priceDet=rememberPriceDet.getAttribute("innerText");
         return this;
     }
 
 
-    @FindBy(xpath = "//div[@class='product-card-top__buy']//button[contains(@class,'button-ui_passive')]")
-    private WebElement clickBuyDet;
 
+    @Step("Покупаем товар")
     public DetroitPage clickBuyDet() {
         waitUtilElementToBeClickable(clickBuyDet);
         clickBuyDet.click();
@@ -38,16 +55,15 @@ public class DetroitPage extends BasePage {
         return this;
     }
 
-    @FindBy(xpath = "//span[@class='cart-link__price']")
-    private WebElement allSumBasket;
 
+    @Step("Запоминаем цену")
     public DetroitPage allSum() {
         waitUtilElementToBeClickable(allSumBasket);
         allSum = allSumBasket.getAttribute("innerText");
         return this;
     }
 
-
+    @Step("Проверка суммы корзины ")
     public DetroitPage allSumBasket() {
         waitUtilElementToBeClickable(allSumBasket);
         sum(pageManager.getLaptopPage().getNewPrice(), priceDet, allSum);
@@ -55,9 +71,8 @@ public class DetroitPage extends BasePage {
         return this;
     }
 
-    @FindBy(xpath = "//span[@class='cart-link__price']")
-    private WebElement goBasket;
 
+    @Step("Переход на страницу корзина")
     public BasketPage goBasket() {
         waitUtilElementToBeVisible(goBasket);
         waitUtilElementToBeClickable(goBasket);
