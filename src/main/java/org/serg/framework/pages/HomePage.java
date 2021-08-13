@@ -41,9 +41,9 @@ public class HomePage extends BasePage {
         waitUtilElementToBeClickable(clickSearch);
 
 
-//        Allure.getLifecycle().addAttachment("Scrin", "image/png", null
-//                , ((TakesScreenshot) DriverManager.getDriverManager())
-//                        .getScreenshotAs(OutputType.BYTES));
+        Allure.getLifecycle().addAttachment("Scrin", "image/png", "png"
+                , ((TakesScreenshot) DriverManager.getDriverManager().getDriver())
+                        .getScreenshotAs(OutputType.BYTES));
 
 
         actions.click(clickSearch)
